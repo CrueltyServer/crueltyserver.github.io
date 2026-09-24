@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Name — 3D Artist & Game Developer</title>
+<meta name="description" content="Portfolio of Your Name: 3D art, game development and experiments.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- Theme tokens (edit colours here) ---------- */
+:root {
+  --bg: #e4e6ea;
+  --panel: #f1f2f4;
+  --ink: #1a1d26;
+  --muted: #565c6b;
+  --line: #c3c8d0;
+  /* The three gizmo axis colours label the project types */
+  --art: #e5484d;    /* X: 3D art */
+  --game: #2f9e66;   /* Y: games */
+  --exp: #3e63dd;    /* Z: experiments */
+  /* Clay cube faces */
+  --f1: #f4f4f2; --f2: #d8d8d4; --f3: #c6c6c1; --f4: #b4b4af; --f5: #a3a39e; --f6: #8f8f8a;
+}
+:root:not([data-theme="light"]) { color-scheme: light dark; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1b1e26; --panel: #252934; --ink: #eceef3; --muted: #9ba2b1; --line: #3a3f4d;
+    --art: #ff6369; --game: #46c088; --exp: #6f8cff;
+    --f1: #a9abb3; --f2: #8c8e97; --f3: #7a7c85; --f4: #686a73; --f5: #5a5c65; --f6: #4b4d55;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1b1e26; --panel: #252934; --ink: #eceef3; --muted: #9ba2b1; --line: #3a3f4d;
+  --art: #ff6369; --game: #46c088; --exp: #6f8cff;
+  --f1: #a9abb3; --f2: #8c8e97; --f3: #7a7c85; --f4: #686a73; --f5: #5a5c65; --f6: #4b4d55;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: "Familjen Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.0625rem; line-height: 1.6;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--exp); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
+section { padding: 5rem 0; }
+h1, h2, h3 { line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
+h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
+p { max-width: 62ch; }
+
+/* ---------- Header ---------- */
+header.top {
+  position: sticky; top: 0; z-index: 10;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+}
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 3.5rem; }
+.brand { font-weight: 700; text-decoration: none; letter-spacing: -0.01em; }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a { text-decoration: none; color: var(--muted); font-size: 0.98rem; }
+nav a:hover { color: var(--ink); }
+#theme {
+  background: none; border: 1px solid var(--line); color: var(--ink);
+  border-radius: 999px; padding: 0.2rem 0.75rem; font: inherit; font-size: 0.9rem; cursor: pointer;
+}
+@media (max-width: 34rem) { nav a.hide-sm { display: none; } nav { gap: 1rem; } }
+
+/* ---------- Hero ---------- */
+.hero { padding: 5rem 0 4rem; }
+.hero .wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: center; }
+.hero h1 { font-size: clamp(3rem, 9vw, 6.5rem); font-weight: 700; letter-spacing: -0.04em; }
+.hero .tagline { font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--muted); margin: 1.5rem 0 2rem; max-width: 30ch; }
+.btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.btn {
+  display: inline-block; padding: 0.7rem 1.4rem; border-radius: 999px; text-decoration: none;
+  font-weight: 500; border: 1.5px solid var(--ink);
+}
+.btn.solid { background: var(--ink); color: var(--bg); }
+.btn:hover { transform: translateY(-2px); }
+.btn { transition: transform .15s; }
+
+/* Clay cube: pure CSS, no libraries */
+.stage { display: grid; place-items: center; perspective: 900px; min-height: 18rem; }
+.cube {
+  --s: 9rem; width: var(--s); height: var(--s); position: relative;
+  transform-style: preserve-3d; transform: rotateX(-24deg) rotateY(35deg);
+  animation: spin 18s linear infinite;
+}
+.cube i {
+  position: absolute; inset: 0; border: 1px solid rgba(0,0,0,.12);
+  border-radius: 0.6rem;
+}
+.cube i:nth-child(1) { background: var(--f1); transform: translateZ(calc(var(--s) / 2)); }
+.cube i:nth-child(2) { background: var(--f2); transform: rotateY(90deg)  translateZ(calc(var(--s) / 2)); }
+.cube i:nth-child(3) { background: var(--f3); transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
+.cube i:nth-child(4) { background: var(--f4); transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
+.cube i:nth-child(5) { background: var(--f5); transform: rotateX(90deg)  translateZ(calc(var(--s) / 2)); }
+.cube i:nth-child(6) { background: var(--f6); transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
+@keyframes spin { to { transform: rotateX(-24deg) rotateY(395deg); } }
+@media (max-width: 52rem) { .hero .wrap { grid-template-columns: 1fr; } .stage { min-height: 13rem; order: -1; } }
+
+/* ---------- Work ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2rem; }
+.filters button {
+  font: inherit; font-size: 0.95rem; cursor: pointer; color: var(--ink);
+  background: transparent; border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 0.35rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--muted); }
+.dot.art { background: var(--art); } .dot.game { background: var(--game); } .dot.exp { background: var(--exp); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1.5rem; }
+.card { background: var(--panel); border-radius: 0.5rem; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; border: 1px solid var(--line); }
+.card:hover .thumb { filter: brightness(1.06); }
+.thumb { aspect-ratio: 4 / 3; background-size: cover; background-position: center; transition: filter .2s; border-bottom: 4px solid var(--c); }
+.card .body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.card h3 { font-size: 1.25rem; }
+.meta { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+.card p { margin: 0; color: var(--muted); font-size: 0.98rem; }
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+.tags span { font-size: 0.82rem; border: 1px solid var(--line); border-radius: 999px; padding: 0 0.6rem; color: var(--muted); }
+.empty { color: var(--muted); }
+
+/* ---------- About / Elsewhere / Contact ---------- */
+.about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; }
+.about ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.about li { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+.about li b { display: block; font-weight: 500; }
+.about li span { color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 52rem) { .about { grid-template-columns: 1fr; gap: 2rem; } }
+
+.links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.links a { display: inline-block; padding: 0.55rem 1.1rem; border: 1.5px solid var(--line); border-radius: 0.4rem; text-decoration: none; background: var(--panel); }
+.links a:hover { border-color: var(--ink); }
+
+.contact-mail { font-size: clamp(1.6rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; word-break: break-all; }
+footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.92rem; border-top: 1px solid var(--line); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cube { animation: none; }
+  html { scroll-behavior: auto; }
+  .btn, .thumb { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" id="brand">Your Name</a>
+    <nav aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#about" class="hide-sm">About</a>
+      <a href="#elsewhere" class="hide-sm">Elsewhere</a>
+      <a href="#contact">Contact</a>
+      <button id="theme" type="button" aria-label="Toggle light and dark theme">Theme</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Intro -->
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <h1 id="name">Your Name</h1>
+        <p class="tagline" id="tagline">3D artist and game developer.</p>
+        <div class="btns">
+          <a class="btn solid" href="#work">See my work</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="stage" aria-hidden="true">
+        <div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Work -->
+  <section id="work">
+    <div class="wrap">
+      <h2>Work</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="wrap about">
+      <div>
+        <h2>About</h2>
+        <!-- EDIT: write 2–3 short paragraphs about you -->
+        <p>I make 3D characters, environments and props, and I build the games they live in. Write a little about what you're into, what you're working on now, and what kind of projects you want.</p>
+        <p>Mention where you're based, whether you're open to freelance or full-time work, and anything else people should know.</p>
+      </div>
+      <!-- EDIT: skills and tools -->
+      <ul aria-label="Skills and tools">
+        <li><b>3D</b><span>Blender, ZBrush, Substance Painter</span></li>
+        <li><b>Engines</b><span>Unity, Unreal, Godot</span></li>
+        <li><b>Code</b><span>C#, C++, GDScript</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Elsewhere -->
+  <section id="elsewhere">
+    <div class="wrap">
+      <h2>Elsewhere</h2>
+      <ul class="links" id="socials"></ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <p>For commissions, collaborations or just to say hi, email me:</p>
+      <a class="contact-mail" id="mail" href="#">you@example.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span id="year"></span> <span id="foot-name">Your Name</span>. All artwork and code belong to their creator.</div>
+</footer>
+
+<script>
+/* =========================================================
+   EDIT THIS BLOCK: it fills in the whole site.
+   ========================================================= */
+const SITE = {
+  name: "Your Name",
+  tagline: "3D artist and game developer. I make worlds, characters and the games around them.",
+  email: "you@example.com",
+
+  socials: [
+    { label: "ArtStation", url: "https://www.artstation.com/yourname" },
+    { label: "itch.io",    url: "https://yourname.itch.io" },
+    { label: "GitHub",     url: "https://github.com/yourname" },
+    { label: "YouTube",    url: "https://youtube.com/@yourname" },
+    { label: "Instagram",  url: "https://instagram.com/yourname" }
+  ],
+
+  // type: "art" | "game" | "exp"
+  // img: path to an image in your repo, e.g. "images/robot.jpg" (leave "" for a placeholder)
+  projects: [
+    { title: "Rusty Courier", type: "art",  year: 2026, img: "", url: "https://www.artstation.com/", desc: "Stylised robot character, sculpted and textured for real-time.", tags: ["Blender", "Substance"] },
+    { title: "Lantern Vale",  type: "game", year: 2026, img: "", url: "https://itch.io/",            desc: "Small exploration game about a village that only exists at night.", tags: ["Unity", "C#"] },
+    { title: "Harbour Diorama", type: "art", year: 2025, img: "", url: "https://www.artstation.com/", desc: "Hand-painted isometric harbour scene.", tags: ["Blender", "Hand-painted"] },
+    { title: "Gravity Sketch", type: "exp", year: 2025, img: "", url: "https://github.com/",         desc: "Prototype testing wall-walking with a custom character controller.", tags: ["Godot", "Prototype"] },
+    { title: "Game Jam: Moth", type: "game", year: 2024, img: "", url: "https://itch.io/",           desc: "48-hour jam entry, made with a team of three.", tags: ["Jam", "Unreal"] },
+    { title: "Shader Playground", type: "exp", year: 2024, img: "", url: "https://github.com/",       desc: "Collection of toon, water and dissolve shaders.", tags: ["Shaders", "HLSL"] }
+  ]
+};
+
+/* ---------- Everything below just renders the data above ---------- */
+const TYPES = {
+  all:  { label: "All" },
+  art:  { label: "3D art" },
+  game: { label: "Games" },
+  exp:  { label: "Experiments" }
+};
+
+document.getElementById("name").textContent = SITE.name;
+document.getElementById("brand").textContent = SITE.name;
+document.getElementById("foot-name").textContent = SITE.name;
+document.getElementById("tagline").textContent = SITE.tagline;
+document.getElementById("year").textContent = "© " + new Date().getFullYear();
+document.title = SITE.name + " — 3D Artist & Game Developer";
+const mail = document.getElementById("mail");
+mail.textContent = SITE.email; mail.href = "mailto:" + SITE.email;
+
+const socials = document.getElementById("socials");
+SITE.socials.forEach(s => {
+  const li = document.createElement("li"), a = document.createElement("a");
+  a.href = s.url; a.textContent = s.label; a.target = "_blank"; a.rel = "noopener";
+  li.appendChild(a); socials.appendChild(li);
+});
+
+const grid = document.getElementById("grid");
+const filters = document.getElementById("filters");
+let current = "all";
+
+function render() {
+  grid.textContent = "";
+  const list = SITE.projects.filter(p => current === "all" || p.type === current);
+  if (!list.length) { grid.innerHTML = '<p class="empty">Nothing here yet.</p>'; return; }
+  list.forEach((p, i) => {
+    const a = document.createElement("a");
+    a.className = "card"; a.href = p.url; a.target = "_blank"; a.rel = "noopener";
+    a.style.setProperty("--c", `var(--${p.type})`);
+
+    const t = document.createElement("div");
+    t.className = "thumb";
+    t.setAttribute("role", "img"); t.setAttribute("aria-label", p.title);
+    if (p.img) t.style.backgroundImage = `url("${p.img}")`;
+    else { const h = (i * 47 + 210) % 360; t.style.background = `linear-gradient(135deg, hsl(${h} 18% 72%), hsl(${h} 22% 52%))`; }
+
+    const b = document.createElement("div"); b.className = "body";
+    const meta = document.createElement("div"); meta.className = "meta";
+    const dot = document.createElement("span"); dot.className = "dot " + p.type;
+    meta.append(dot, document.createTextNode(`${TYPES[p.type].label}, ${p.year}`));
+    const h3 = document.createElement("h3"); h3.textContent = p.title;
+    const d = document.createElement("p"); d.textContent = p.desc;
+    const tags = document.createElement("div"); tags.className = "tags";
+    (p.tags || []).forEach(x => { const s = document.createElement("span"); s.textContent = x; tags.appendChild(s); });
+
+    b.append(meta, h3, d, tags);
+    a.append(t, b); grid.appendChild(a);
+  });
+}
+
+Object.entries(TYPES).forEach(([key, v]) => {
+  const btn = document.createElement("button");
+  btn.type = "button"; btn.setAttribute("aria-pressed", key === "all");
+  if (key !== "all") { const d = document.createElement("span"); d.className = "dot " + key; btn.appendChild(d); }
+  btn.appendChild(document.createTextNode(v.label));
+  btn.onclick = () => {
+    current = key;
+    filters.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === btn));
+    render();
+  };
+  filters.appendChild(btn);
+});
+render();
+
+/* Theme toggle (remembered if the browser allows it) */
+const root = document.documentElement;
+try { const saved = localStorage.getItem("theme"); if (saved) root.dataset.theme = saved; } catch (e) {}
+document.getElementById("theme").onclick = () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>
