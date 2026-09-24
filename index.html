@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CrueltyServer</title>
 <meta name="description" content="Posts, updates, and work by CrueltyServer">
-<link rel="icon" href="images/Anti.ico'>
-
-
-testing 
+<link rel="icon" href="images/Anti.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #e4e6ea;
@@ -153,7 +153,7 @@ nav a:hover { color: var(--ink); }
 .post-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;https://github.com/CrueltyServer/crueltyserver.github.io/blob/main/shucky.gif
+  gap: 1rem;
 }
 .post-card {
   display: block;
@@ -194,7 +194,6 @@ nav a:hover { color: var(--ink); }
   color: var(--muted);
   font-size: 0.98rem;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -259,7 +258,7 @@ nav a:hover { color: var(--ink); }
   display: block;
 }
 
-/* ---------- About ---------- */
+/* ---------- Footer ---------- */
 .footer-strip {
   border-top: 1px solid var(--line);
   padding: 2rem 0 3rem;
@@ -306,9 +305,7 @@ nav a:hover { color: var(--ink); }
 
 <!-- Banner -->
 <section class="banner" id="banner">
-  <div class="banner-media" id="banner-media">
-
-  </div>
+  <div class="banner-media" id="banner-media"></div>
   <div class="banner-content">
     <div class="wrap-wide">
       <h1 id="name">CrueltyServer</h1>
@@ -346,13 +343,12 @@ nav a:hover { color: var(--ink); }
 </footer>
 
 <script>
-
 const SITE = {
   name: "CrueltyServer",
   tagline: "3D artist and game developer.",
 
   bannerVideo: "",
- bannerImage: "images/shucky.gif",
+  bannerImage: "images/shucky.gif",
 
   socials: [
     { label: "itch.io",  url: "https://crueltyserver.itch.io" },
@@ -360,7 +356,6 @@ const SITE = {
     { label: "YouTube",  url: "https://youtube.com/@crueltyserver" },
   ],
 
-  /* Posts */
   posts: [
     {
       id: "welcome",
