@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CrueltyServer</title>
-<meta name="description" content="cool site">
+<meta name="description" content="Posts, updates, and work by CrueltyServer">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,214 +17,333 @@
   --ink: #1a1d26;
   --muted: #565c6b;
   --line: #c3c8d0;
-  --art: #e5484d;    /* X:
-  --game: #2f9e66;   /* Y:
-  --exp: #3e63dd;    /* Z:
-  /*  cube faces */
-  --f1: #f4f4f2; --f2: #d8d8d4; --f3: #c6c6c1; --f4: #b4b4af; --f5: #a3a39e; --f6: #8f8f8a;
+  --accent: #3e63dd;
 }
 :root:not([data-theme="light"]) { color-scheme: light dark; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #1b1e26; --panel: #252934; --ink: #eceef3; --muted: #9ba2b1; --line: #3a3f4d;
-    --art: #ff6369; --game: #46c088; --exp: #6f8cff;
-    --f1: #a9abb3; --f2: #8c8e97; --f3: #7a7c85; --f4: #686a73; --f5: #5a5c65; --f6: #4b4d55;
+    --accent: #6f8cff;
   }
 }
 :root[data-theme="dark"] {
   --bg: #1b1e26; --panel: #252934; --ink: #eceef3; --muted: #9ba2b1; --line: #3a3f4d;
-  --art: #ff6369; --game: #46c088; --exp: #6f8cff;
-  --f1: #a9abb3; --f2: #8c8e97; --f3: #7a7c85; --f4: #686a73; --f5: #5a5c65; --f6: #4b4d55;
+  --accent: #6f8cff;
 }
 
-/* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
   font-family: "Familjen Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 1.0625rem; line-height: 1.6;
+  font-size: 1.0625rem;
+  line-height: 1.6;
 }
 a { color: inherit; }
-:focus-visible { outline: 3px solid var(--exp); outline-offset: 3px; border-radius: 4px; }
-.wrap { max-width: 72rem; margin: 0 auto; padding: 0 1.5rem; }
-section { padding: 5rem 0; }
-h1, h2, h3 { line-height: 1.05; margin: 0; letter-spacing: -0.02em; }
-h2 { font-size: clamp(1.9rem, 4vw, 2.6rem); margin-bottom: 2rem; }
-p { max-width: 62ch; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: 42rem; margin: 0 auto; padding: 0 1.25rem; }
+.wrap-wide { max-width: 56rem; margin: 0 auto; padding: 0 1.25rem; }
 
-/* ---------- Header ---------- */
+/* ---------- Sticky nav ---------- */
 header.top {
-  position: sticky; top: 0; z-index: 10;
+  position: sticky;
+  top: 0;
+  z-index: 20;
   background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
-header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 3.5rem; }
-.brand { font-weight: 700; text-decoration: none; letter-spacing: -0.01em; }
-nav { display: flex; gap: 1.5rem; align-items: center; }
-nav a { text-decoration: none; color: var(--muted); font-size: 0.98rem; }
+header.top .inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 3.25rem;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+nav { display: flex; gap: 1.25rem; align-items: center; }
+nav a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
 nav a:hover { color: var(--ink); }
 #theme {
-  background: none; border: 1px solid var(--line); color: var(--ink);
-  border-radius: 999px; padding: 0.2rem 0.75rem; font: inherit; font-size: 0.9rem; cursor: pointer;
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
 }
-@media (max-width: 34rem) { nav a.hide-sm { display: none; } nav { gap: 1rem; } }
 
-/* ---------- Hero ---------- */
-.hero { padding: 5rem 0 4rem; }
-.hero .wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: center; }
-.hero h1 { font-size: clamp(3rem, 9vw, 6.5rem); font-weight: 700; letter-spacing: -0.04em; }
-.hero .tagline { font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--muted); margin: 1.5rem 0 2rem; max-width: 30ch; }
-.btns { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.btn {
-  display: inline-block; padding: 0.7rem 1.4rem; border-radius: 999px; text-decoration: none;
-  font-weight: 500; border: 1.5px solid var(--ink);
+/* ---------- Banner hero ---------- */
+.banner {
+  position: relative;
+  min-height: 16rem;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
 }
-.btn.solid { background: var(--ink); color: var(--bg); }
-.btn:hover { transform: translateY(-2px); }
-.btn { transition: transform .15s; }
+.banner-media {
+  position: absolute;
+  inset: 0;
+  background: #111;
+}
+.banner-media video,
+.banner-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.banner-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 40%, transparent) 45%,
+    transparent 100%
+  );
+}
+.banner-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 2.5rem 0 2rem;
+}
+.banner h1 {
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.35rem;
+  line-height: 1.1;
+}
+.banner .tagline {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 36ch;
+}
 
-/*  cube: */
-.stage { display: grid; place-items: center; perspective: 900px; min-height: 18rem; }
-.cube {
-  --s: 9rem; width: var(--s); height: var(--s); position: relative;
-  transform-style: preserve-3d; transform: rotateX(-24deg) rotateY(35deg);
-  animation: spin 18s linear infinite;
+/* ---------- Posts (Patreon-style) ---------- */
+.posts-section {
+  padding: 2.5rem 0 4rem;
 }
-.cube i {
-  position: absolute; inset: 0; border: 1px solid rgba(0,0,0,.12);
+.posts-section h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin: 0 0 1.25rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.post-card {
+  display: block;
+  background: var(--panel);
+  border: 1px solid var(--line);
   border-radius: 0.6rem;
+  padding: 1.15rem 1.25rem;
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+  cursor: pointer;
 }
-.cube i:nth-child(1) { background: var(--f1); transform: translateZ(calc(var(--s) / 2)); }
-.cube i:nth-child(2) { background: var(--f2); transform: rotateY(90deg)  translateZ(calc(var(--s) / 2)); }
-.cube i:nth-child(3) { background: var(--f3); transform: rotateY(180deg) translateZ(calc(var(--s) / 2)); }
-.cube i:nth-child(4) { background: var(--f4); transform: rotateY(-90deg) translateZ(calc(var(--s) / 2)); }
-.cube i:nth-child(5) { background: var(--f5); transform: rotateX(90deg)  translateZ(calc(var(--s) / 2)); }
-.cube i:nth-child(6) { background: var(--f6); transform: rotateX(-90deg) translateZ(calc(var(--s) / 2)); }
-@keyframes spin { to { transform: rotateX(-24deg) rotateY(395deg); } }
-@media (max-width: 52rem) { .hero .wrap { grid-template-columns: 1fr; } .stage { min-height: 13rem; order: -1; } }
-
-/* ---------- Work ---------- */
-.filters { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2rem; }
-.filters button {
-  font: inherit; font-size: 0.95rem; cursor: pointer; color: var(--ink);
-  background: transparent; border: 1.5px solid var(--line); border-radius: 999px;
-  padding: 0.35rem 1rem; display: inline-flex; align-items: center; gap: 0.5rem;
+.post-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-1px);
 }
-.filters button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--muted); }
-.dot.art { background: var(--art); } .dot.game { background: var(--game); } .dot.exp { background: var(--exp); }
+.post-card .post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+.post-card .post-meta .dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.post-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+  letter-spacing: -0.01em;
+}
+.post-card .excerpt {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.post-card .thumb-sm {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.4rem;
+  background: var(--line);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 0.75rem;
+}
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 1.5rem; }
-.card { background: var(--panel); border-radius: 0.5rem; overflow: hidden; display: flex; flex-direction: column; text-decoration: none; border: 1px solid var(--line); }
-.card:hover .thumb { filter: brightness(1.06); }
-.thumb { aspect-ratio: 4 / 3; background-size: cover; background-position: center; transition: filter .2s; border-bottom: 4px solid var(--c); }
-.card .body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.card h3 { font-size: 1.25rem; }
-.meta { display: flex; align-items: center; gap: 0.5rem; color: var(--muted); font-size: 0.9rem; }
-.card p { margin: 0; color: var(--muted); font-size: 0.98rem; }
-.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
-.tags span { font-size: 0.82rem; border: 1px solid var(--line); border-radius: 999px; padding: 0 0.6rem; color: var(--muted); }
-.empty { color: var(--muted); }
+/* ---------- Post detail ---------- */
+.post-detail {
+  display: none;
+  padding: 2rem 0 4rem;
+}
+.post-detail.active { display: block; }
+.post-detail .back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+.post-detail .back:hover { color: var(--ink); }
+.post-detail .post-date {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+.post-detail h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 1.25rem;
+  line-height: 1.15;
+}
+.post-detail .post-body {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+.post-detail .post-body p { margin: 0 0 1rem; max-width: none; }
+.post-detail .post-body img {
+  max-width: 100%;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+.post-detail .post-media {
+  width: 100%;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background: #111;
+}
+.post-detail .post-media video,
+.post-detail .post-media img {
+  width: 100%;
+  display: block;
+}
 
-.about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 3rem; }
-.about ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-.about li { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
-.about li b { display: block; font-weight: 500; }
-.about li span { color: var(--muted); font-size: 0.95rem; }
-@media (max-width: 52rem) { .about { grid-template-columns: 1fr; gap: 2rem; } }
-
-.links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.links a { display: inline-block; padding: 0.55rem 1.1rem; border: 1.5px solid var(--line); border-radius: 0.4rem; text-decoration: none; background: var(--panel); }
-.links a:hover { border-color: var(--ink); }
-
-.contact-mail { font-size: clamp(1.6rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.03em; word-break: break-all; }
-footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.92rem; border-top: 1px solid var(--line); }
+/* ---------- About ---------- */
+.footer-strip {
+  border-top: 1px solid var(--line);
+  padding: 2rem 0 3rem;
+}
+.footer-strip .links {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.footer-strip .links a {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  text-decoration: none;
+  background: var(--panel);
+  font-size: 0.92rem;
+}
+.footer-strip .links a:hover { border-color: var(--ink); }
+.footer-strip .copy {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .cube { animation: none; }
   html { scroll-behavior: auto; }
-  .btn, .thumb { transition: none; }
+  .post-card { transition: none; }
 }
 </style>
 </head>
 <body>
-
 <header class="top">
-  <div class="wrap">
-    <a class="brand" href="#top" id="brand">Your Name</a>
+  <div class="inner">
+    <a class="brand" href="#" id="brand" data-go="list">CrueltyServer</a>
     <nav aria-label="Main">
-      <a href="#work">Work</a>
-      <a href="#about" class="hide-sm">About</a>
-      <a href="#elsewhere" class="hide-sm">Elsewhere</a>
-      <a href="#contact">Contact</a>
-      <button id="theme" type="button" aria-label="Toggle light and dark theme">Theme</button>
+      <a href="#" data-go="list">Posts</a>
+      <button id="theme" type="button" aria-label="Toggle theme">Theme</button>
     </nav>
   </div>
 </header>
 
-<main id="top">
-  <!-- Intro -->
-  <div class="hero">
-    <div class="wrap">
-      <div>
-        <h1 id="name">CrueltyServer</h1>
-        <p class="tagline" id="tagline">3D artist and game developer.</p>
-        <div class="btns">
-          <a class="btn solid" href="#work">See my work</a>
-          <a class="btn" href="#contact">Get in touch</a>
-        </div>
-      </div>
-      <div class="stage" aria-hidden="true">
-        <div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
+<!-- Banner -->
+<section class="banner" id="banner">
+  <div class="banner-media" id="banner-media">
+
+  </div>
+  <div class="banner-content">
+    <div class="wrap-wide">
+      <h1 id="name">CrueltyServer</h1>
+      <p class="tagline" id="tagline">3D artist and game developer.</p>
     </div>
   </div>
+</section>
 
-  <!-- Work -->
-  <section id="work">
+<main>
+  <!-- Post list -->
+  <section class="posts-section" id="list-view">
     <div class="wrap">
-      <h2>Work</h2>
-      <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
-      <div class="grid" id="grid"></div>
+      <h2>Posts</h2>
+      <div class="post-list" id="post-list"></div>
     </div>
   </section>
 
-  <!-- About -->
-  <section id="about">
-    <div class="wrap about">
-      <div>
-        <h2>About</h2>
-      </div>
-
-      <ul aria-label="Skills and tools">
-        <li><b>3D</b><span>Blender, ZBrush, Substance Painter</span></li>
-        <li><b>Engines</b><span>Unity, Godot</span></li>
-        <li><b>Code</b><span>C#, GDScript</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- Elsewhere -->
-  <section id="elsewhere">
+  <!-- Single post -->
+  <section class="post-detail" id="detail-view">
     <div class="wrap">
-      <h2>Elsewhere</h2>
-      <ul class="links" id="socials"></ul>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <div class="wrap">
-      <h2>Contact</h2>
-      <p>For commissions, collaborations or just to say hi, email me:</p>
-      <a class="contact-mail" id="mail" href="#">none/a>
+      <a href="#" class="back" data-go="list">← Back to posts</a>
+      <div class="post-date" id="detail-date"></div>
+      <h1 id="detail-title"></h1>
+      <div class="post-media" id="detail-media" hidden></div>
+      <div class="post-body" id="detail-body"></div>
     </div>
   </section>
 </main>
 
-<footer>
-  <div class="wrap"><span id="year"></span> <span id="foot-name">Your Name</span>. All artwork and code belong to their creator.</div>
+<footer class="footer-strip">
+  <div class="wrap">
+    <ul class="links" id="socials"></ul>
+    <div class="copy"><span id="year"></span> <span id="foot-name">CrueltyServer</span></div>
+  </div>
 </footer>
 
 <script>
@@ -231,94 +351,193 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 0.92rem; border-t
 const SITE = {
   name: "CrueltyServer",
   tagline: "3D artist and game developer.",
-  email: "none",
+
+  bannerVideo: "",
+  bannerImage: "",
 
   socials: [
-
-    { label: "itch.io",    url: "https://crueltyserver.itch.io" },
-    { label: "GitHub",     url: "https://github.com/crueltyserver" },
-    { label: "YouTube",    url: "https://youtube.com/@crueltyserver" },
+    { label: "itch.io",  url: "https://crueltyserver.itch.io" },
+    { label: "GitHub",   url: "https://github.com/crueltyserver" },
+    { label: "YouTube",  url: "https://youtube.com/@crueltyserver" },
   ],
 
-  projects: [
-    { title: "", type: "art",  year: 2026, img: "", url: "", desc: ".", tags: ["Blender", ""] },
+  /* Posts — newest first. body supports simple HTML (p, a, strong, em, br, img). */
+  posts: [
+    {
+      id: "welcome",
+      title: "Welcome",
+      date: "2026-09-24",
+      excerpt: "First post on the new site. More updates coming soon.",
+      body: "<p>Hey — this is the start of a simple post feed.</p><p>You can open any post to read the full thing. Add new entries in the <code>SITE.posts</code> array in the page source.</p>",
+      media: "",           // optional image or video URL shown at top of post
+      thumb: "",           // optional small preview image on the card
+    },
+  ],
 };
 
-
-const TYPES = {
-  all:  { label: "All" },
-  art:  { label: "3D art" },
-  game: { label: "Games" },
-};
-
+/* ---------- Boot ---------- */
 document.getElementById("name").textContent = SITE.name;
 document.getElementById("brand").textContent = SITE.name;
 document.getElementById("foot-name").textContent = SITE.name;
 document.getElementById("tagline").textContent = SITE.tagline;
 document.getElementById("year").textContent = "© " + new Date().getFullYear();
-document.title = SITE.name + " — 3D Artist & Game Developer";
-const mail = document.getElementById("mail");
-mail.textContent = SITE.email; mail.href = "mailto:" + SITE.email;
+document.title = SITE.name;
 
-const socials = document.getElementById("socials");
+const socialsEl = document.getElementById("socials");
 SITE.socials.forEach(s => {
-  const li = document.createElement("li"), a = document.createElement("a");
-  a.href = s.url; a.textContent = s.label; a.target = "_blank"; a.rel = "noopener";
-  li.appendChild(a); socials.appendChild(li);
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  a.href = s.url;
+  a.textContent = s.label;
+  a.target = "_blank";
+  a.rel = "noopener";
+  li.appendChild(a);
+  socialsEl.appendChild(li);
 });
 
-const grid = document.getElementById("grid");
-const filters = document.getElementById("filters");
-let current = "all";
+/* Banner media */
+const mediaBox = document.getElementById("banner-media");
+if (SITE.bannerVideo) {
+  const v = document.createElement("video");
+  v.src = SITE.bannerVideo;
+  v.autoplay = true;
+  v.muted = true;
+  v.loop = true;
+  v.playsInline = true;
+  mediaBox.appendChild(v);
+} else if (SITE.bannerImage) {
+  const img = document.createElement("img");
+  img.src = SITE.bannerImage;
+  img.alt = "";
+  mediaBox.appendChild(img);
+}
 
-function render() {
-  grid.textContent = "";
-  const list = SITE.projects.filter(p => current === "all" || p.type === current);
-  if (!list.length) { grid.innerHTML = '<p class="empty">Nothing here yet.</p>'; return; }
-  list.forEach((p, i) => {
+/* ---------- Views ---------- */
+const listView = document.getElementById("list-view");
+const detailView = document.getElementById("detail-view");
+const postList = document.getElementById("post-list");
+
+function showList() {
+  listView.style.display = "";
+  detailView.classList.remove("active");
+  history.replaceState(null, "", location.pathname);
+  window.scrollTo(0, 0);
+}
+
+function showPost(id) {
+  const post = SITE.posts.find(p => p.id === id);
+  if (!post) return showList();
+
+  document.getElementById("detail-date").textContent = formatDate(post.date);
+  document.getElementById("detail-title").textContent = post.title;
+  document.getElementById("detail-body").innerHTML = post.body || "";
+
+  const media = document.getElementById("detail-media");
+  media.innerHTML = "";
+  if (post.media) {
+    media.hidden = false;
+    if (/\.(mp4|webm|mov)(\?|$)/i.test(post.media)) {
+      const v = document.createElement("video");
+      v.src = post.media;
+      v.controls = true;
+      v.playsInline = true;
+      media.appendChild(v);
+    } else {
+      const img = document.createElement("img");
+      img.src = post.media;
+      img.alt = post.title;
+      media.appendChild(img);
+    }
+  } else {
+    media.hidden = true;
+  }
+
+  listView.style.display = "none";
+  detailView.classList.add("active");
+  history.replaceState(null, "", "#" + id);
+  window.scrollTo(0, 0);
+}
+
+function formatDate(iso) {
+  try {
+    return new Date(iso + "T12:00:00").toLocaleDateString(undefined, {
+      year: "numeric", month: "long", day: "numeric"
+    });
+  } catch {
+    return iso;
+  }
+}
+
+/* Render cards */
+function renderList() {
+  postList.textContent = "";
+  if (!SITE.posts.length) {
+    postList.innerHTML = '<p style="color:var(--muted)">No posts yet.</p>';
+    return;
+  }
+  SITE.posts.forEach(p => {
     const a = document.createElement("a");
-    a.className = "card"; a.href = p.url; a.target = "_blank"; a.rel = "noopener";
-    a.style.setProperty("--c", `var(--${p.type})`);
+    a.className = "post-card";
+    a.href = "#" + p.id;
+    a.dataset.id = p.id;
 
-    const t = document.createElement("div");
-    t.className = "thumb";
-    t.setAttribute("role", "img"); t.setAttribute("aria-label", p.title);
-    if (p.img) t.style.backgroundImage = `url("${p.img}")`;
-    else { const h = (i * 47 + 210) % 360; t.style.background = `linear-gradient(135deg, hsl(${h} 18% 72%), hsl(${h} 22% 52%))`; }
+    if (p.thumb) {
+      const t = document.createElement("div");
+      t.className = "thumb-sm";
+      t.style.backgroundImage = `url("${p.thumb}")`;
+      a.appendChild(t);
+    }
 
-    const b = document.createElement("div"); b.className = "body";
-    const meta = document.createElement("div"); meta.className = "meta";
-    const dot = document.createElement("span"); dot.className = "dot " + p.type;
-    meta.append(dot, document.createTextNode(`${TYPES[p.type].label}, ${p.year}`));
-    const h3 = document.createElement("h3"); h3.textContent = p.title;
-    const d = document.createElement("p"); d.textContent = p.desc;
-    const tags = document.createElement("div"); tags.className = "tags";
-    (p.tags || []).forEach(x => { const s = document.createElement("span"); s.textContent = x; tags.appendChild(s); });
+    const meta = document.createElement("div");
+    meta.className = "post-meta";
+    meta.innerHTML = '<span class="dot"></span>' + formatDate(p.date);
 
-    b.append(meta, h3, d, tags);
-    a.append(t, b); grid.appendChild(a);
+    const h3 = document.createElement("h3");
+    h3.textContent = p.title;
+
+    const excerpt = document.createElement("p");
+    excerpt.className = "excerpt";
+    excerpt.textContent = p.excerpt || "";
+
+    a.append(meta, h3, excerpt);
+    a.addEventListener("click", e => {
+      e.preventDefault();
+      showPost(p.id);
+    });
+    postList.appendChild(a);
   });
 }
 
-Object.entries(TYPES).forEach(([key, v]) => {
-  const btn = document.createElement("button");
-  btn.type = "button"; btn.setAttribute("aria-pressed", key === "all");
-  if (key !== "all") { const d = document.createElement("span"); d.className = "dot " + key; btn.appendChild(d); }
-  btn.appendChild(document.createTextNode(v.label));
-  btn.onclick = () => {
-    current = key;
-    filters.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === btn));
-    render();
-  };
-  filters.appendChild(btn);
-});
-render();
+renderList();
 
+/* Routing */
+document.querySelectorAll("[data-go='list']").forEach(el => {
+  el.addEventListener("click", e => {
+    e.preventDefault();
+    showList();
+  });
+});
+
+if (location.hash && location.hash.length > 1) {
+  showPost(location.hash.slice(1));
+}
+
+window.addEventListener("hashchange", () => {
+  if (location.hash && location.hash.length > 1) showPost(location.hash.slice(1));
+  else showList();
+});
+
+/* Theme */
 const root = document.documentElement;
-try { const saved = localStorage.getItem("theme"); if (saved) root.dataset.theme = saved; } catch (e) {}
+try {
+  const saved = localStorage.getItem("theme");
+  if (saved) root.dataset.theme = saved;
+} catch (e) {}
 document.getElementById("theme").onclick = () => {
-  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-  root.dataset.theme = dark ? "light" : "dark";
+  const isDark = root.dataset.theme
+    ? root.dataset.theme === "dark"
+    : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = isDark ? "light" : "dark";
   try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
 };
 </script>
