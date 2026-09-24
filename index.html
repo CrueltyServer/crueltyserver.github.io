@@ -57,16 +57,11 @@ header.top {
 header.top .inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: 3.25rem;
   max-width: 56rem;
   margin: 0 auto;
   padding: 0 1.25rem;
-}
-.brand {
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: -0.01em;
 }
 nav { display: flex; gap: 1.25rem; align-items: center; }
 nav a {
@@ -124,6 +119,20 @@ nav a:hover { color: var(--ink); }
   width: 100%;
   padding: 2.5rem 0 2rem;
 }
+.banner-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.banner-logo {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  flex-shrink: 0;
+  background: var(--panel);
+}
 .banner h1 {
   font-size: clamp(2.2rem, 6vw, 3.4rem);
   font-weight: 700;
@@ -138,7 +147,7 @@ nav a:hover { color: var(--ink); }
   max-width: 36ch;
 }
 
-/* ---------- Posts (Patreon-style) ---------- */
+/* ---------- Posts ---------- */
 .posts-section {
   padding: 2.5rem 0 4rem;
 }
@@ -295,7 +304,6 @@ nav a:hover { color: var(--ink); }
 <body>
 <header class="top">
   <div class="inner">
-    <a class="brand" href="#" id="brand" data-go="list">CrueltyServer</a>
     <nav aria-label="Main">
       <a href="#" data-go="list">Posts</a>
       <button id="theme" type="button" aria-label="Toggle theme">Theme</button>
@@ -308,14 +316,18 @@ nav a:hover { color: var(--ink); }
   <div class="banner-media" id="banner-media"></div>
   <div class="banner-content">
     <div class="wrap-wide">
-      <h1 id="name">CrueltyServer</h1>
-      <p class="tagline" id="tagline">3D artist and game developer.</p>
+      <div class="banner-row">
+        <img class="banner-logo" id="logo" src="" alt="" hidden>
+        <div>
+          <h1 id="name">CrueltyServer</h1>
+          <p class="tagline" id="tagline">3D artist and game developer.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <main>
-  <!-- Post list -->
   <section class="posts-section" id="list-view">
     <div class="wrap">
       <h2>Posts</h2>
@@ -323,7 +335,6 @@ nav a:hover { color: var(--ink); }
     </div>
   </section>
 
-  <!-- Single post -->
   <section class="post-detail" id="detail-view">
     <div class="wrap">
       <a href="#" class="back" data-go="list">← Back to posts</a>
@@ -347,8 +358,11 @@ const SITE = {
   name: "CrueltyServer",
   tagline: "3D artist and game developer.",
 
+  /* Pfp*/
+  logo: "images/pfp.png",  
+
   bannerVideo: "",
-  bannerImage: "images/shucky.gif",
+  bannerImage: "images/banner.jpg",
 
   socials: [
     { label: "itch.io",  url: "https://crueltyserver.itch.io" },
@@ -358,24 +372,29 @@ const SITE = {
 
   posts: [
     {
-      id: "welcome",
-      title: "Welcome",
+      title: "Hello World",
       date: "2026-09-24",
-      excerpt: "First post on the new site. More updates coming soon.",
-      body: "<p>Hey — this is the start of a simple post feed.</p><p>You can open any post to read the full thing. Add new entries in the <code>SITE.posts</code> array in the page source.</p>",
-      media: "",
-      thumb: "",
+      excerpt: "First post on the new site. ",
+      body: "<p>Hey just setting up the site</p><p>hey this feature works wow.</p> <span>  <img src=\"images/shucky.gif\" alt=\"Shucky\">  </span>",
+      thumb: "images/shucky.gif",
     },
   ],
 };
 
 /* ---------- Boot ---------- */
 document.getElementById("name").textContent = SITE.name;
-document.getElementById("brand").textContent = SITE.name;
 document.getElementById("foot-name").textContent = SITE.name;
 document.getElementById("tagline").textContent = SITE.tagline;
 document.getElementById("year").textContent = "© " + new Date().getFullYear();
 document.title = SITE.name;
+
+/* Logo */
+const logoEl = document.getElementById("logo");
+if (SITE.logo) {
+  logoEl.src = SITE.logo;
+  logoEl.alt = SITE.name;
+  logoEl.hidden = false;
+}
 
 const socialsEl = document.getElementById("socials");
 SITE.socials.forEach(s => {
@@ -462,7 +481,6 @@ function formatDate(iso) {
   }
 }
 
-/* Render cards */
 function renderList() {
   postList.textContent = "";
   if (!SITE.posts.length) {
@@ -504,7 +522,6 @@ function renderList() {
 
 renderList();
 
-/* Routing */
 document.querySelectorAll("[data-go='list']").forEach(el => {
   el.addEventListener("click", e => {
     e.preventDefault();
@@ -521,7 +538,6 @@ window.addEventListener("hashchange", () => {
   else showList();
 });
 
-/* Theme */
 const root = document.documentElement;
 try {
   const saved = localStorage.getItem("theme");
